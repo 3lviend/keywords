@@ -1,7 +1,7 @@
 class DashboardController < ApplicationController
 
 	def index
-		@keywords = Keyword.all
+		@keywords = Keyword.all.limit(50)
 	end
 
 	def select_date
