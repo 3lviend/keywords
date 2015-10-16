@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   root 'dashboard#index'
   post 'keywords' => 'keywords#import'
   get 'select_date' => 'dashboard#select_date'
+  get 'import' => 'dashboard#get_import'
+
+  
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
