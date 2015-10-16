@@ -26,4 +26,10 @@ class Keyword < ActiveRecord::Base
 	  end
   end
 
+  def self.search(search)
+  	searchfrom = search[:from]
+    searchto = search[:to]
+	  where('date between ? and ?', searchfrom.to_date, searchto.to_date)
+	end
+
 end

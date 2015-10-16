@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'dashboard#index'
   post 'keywords' => 'keywords#import'
+  get 'select_date' => 'dashboard#select_date'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
