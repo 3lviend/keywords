@@ -11,16 +11,41 @@ body{
   margin-left: 16px;
 }
 
-#from,#to{
-  /*margin-bottom-top : 30px;*/
-}
-
 #ui-datepicker-div{
-  /*position: relative !important;*/
   top: 129px !important;
 }
 .back-page.btn.btn-default{
   padding-bottom: 5px;
   padding-top: 5px;
   margin-top: 9px;
+}
+td.td1{
+  width: 50%;
+}
+td.td1{
+  background: #4BB11D;
+}
+td.td2{
+  background: #8AC870;
+}
+td.td3{
+  background: #B1D6A2;
+}
+td.td4{
+  background: #C7DEBD;
+}
+td.td5{
+  background: #D4E2CE;
+}
+td.td6{
+  background: #E1E8DF;
+}
+td.td7{
+  background: #E6EAE5;
+}
+td.td8{
+  background: #E8E9E7;
+}
+td.td9{
+  background: #EAEAEA;
 }
