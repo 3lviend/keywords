@@ -8,8 +8,6 @@ class DashboardController < ApplicationController
 		@keywords = Keyword.search(params[:search])
 	end
 
-  def get_import
-    
-  end
+  def get_import;end
 
 end
