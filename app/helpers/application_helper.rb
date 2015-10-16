@@ -71,4 +71,42 @@ module ApplicationHelper
 		end
 	end
 
+	def new_top_ten_on_impressions(key)
+		sums_by_id = []
+		keywords = key.find_all{|k|k if k.new}.group_by(&:query).sort_by{|q, s|s.sum(&:impressions)}.reverse.first(10)
+		keywords.each do |sum|
+			sums_by_id << sum[1].map(&:impressions).inject{|sum,x| sum + x}
+		end
+	end
+
+	def past_top_ten_on_impressions(key)
+		sums_by_id = []
+		keywords = key.find_all{|k|k if !k.new}.group_by(&:query).sort_by{|q, s|s.sum(&:impressions)}.reverse.first(10)
+		keywords.each do |sum|
+			sums_by_id << sum[1].map(&:impressions).inject{|sum,x| sum + x}
+		end
+	end
+
+	def improved_rankings(key)
+		sums_by_id = []
+		keywords = key.group_by(&:query).sort_by{|q, s|s.sum(&:impressions)}.reverse.first(10)
+		keywords.each do |sum|
+			if sum[1].size > 100
+				sums_by_id << sum[1].size
+			end
+		end
+		return sums_by_id
+	end
+
+	def lost_rankings(key)
+		sums_by_id = []
+		keywords = key.group_by(&:query).sort_by{|q, s|s.sum(&:impressions)}.reverse.first(10)
+		keywords.each do |sum|
+			if sum[1].size > 100
+				sums_by_id << sum[1].size
+			end
+		end
+		return sums_by_id
+	end
+
 end
