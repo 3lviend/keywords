@@ -1,5 +1,5 @@
 <div class="table-responsive">
-       <table class="table table-striped table-bordered table-hover">
+    <table class="table table-striped table-bordered table-hover">
         <thead>
             <tr>
                 <th></th>
@@ -10,22 +10,15 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <!-- title 1 -->
-                <th>Kw 1</th>
-                <td>1,215,100 <br> Impressions <br> +100,000 (+10%)</td>
-                <td>200,488 <br> Clicks <br> +x,xxx <br> (xx.xx%)</td>
-                <td>12.58% <br> +x,xxx <br> (xx.xx%)</td>
-                <td>12.85 <br> +x,xxx <br> (xx.xx%)</td>
-            </tr>
-            <tr>
-                <!-- title 2 -->
-                <th>Kw 10</th>
-                <td>..</td>
-                <td>..</td>
-                <td>..</td>
-                <td>..</td>
-            </tr>
-            </tbody>
+            <% top_ten_on_clicks(@keywords).each_with_index do |val, index| %>
+              <tr>
+                <td>KW&nbsp;<%= index+1 %></td>
+                <td><%= val[1].size %> <br> Impressions <br> +100,000 (+10%)</td>
+                <td><%= overall_traffic(val[1]) %> <br> Clicks <br> +x,xxx <br> (xx.xx%)</td>
+                <td><%= overall_avg_ctr(val[1]) %> <br> +x,xxx <br> (xx.xx%)</td>
+                <td><%= overall_avg_position(val[1]) %> <br> +x,xxx <br> (xx.xx%)</td>
+              </tr>
+            <%end%>
+        </tbody>
     </table>
 </div>

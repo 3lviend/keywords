@@ -63,4 +63,12 @@ module ApplicationHelper
 		key.find_all{|k|k if !k.new}.map(&:avg_position).inject{|sum,x| sum + x }
 	end
 
+	def top_ten_on_clicks(key)
+		sums_by_id = []
+		keywords = key.group_by(&:query).sort_by{|q, s|s.sum(&:clicks)}.reverse.first(10)
+		keywords.each do |sum|
+			sums_by_id << sum[1].map(&:clicks).inject{|sum,x| sum + x}
+		end
+	end
+
 end
