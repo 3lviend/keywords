@@ -19,3 +19,8 @@ body{
   /*position: relative !important;*/
   top: 129px !important;
 }
+.back-page.btn.btn-default{
+  padding-bottom: 5px;
+  padding-top: 5px;
+  margin-top: 9px;
+}

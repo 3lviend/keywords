@@ -1,5 +1,11 @@
-<p> Selected Date: <%=  "#{params[:search][:from]}" ' - ' "#{params[:search][:to]}" %> </p>
-Compared to:
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="alert alert-success"> Selected Date: <%=  "#{params[:search][:from]}" ' - ' "#{params[:search][:to]}" %> </div>
+      <h3>Compared to :</h3>
+    </div>
+  </div>
+</div>
 
 <div class="container">
   <div class="row">
@@ -136,7 +142,6 @@ Compared to:
       </div>
     </div>
   </div>
-  <%= link_to 'Back', :back %>
 </div>
 
 
