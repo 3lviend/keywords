@@ -1,4 +1,4 @@
 $(function() {
-    $( "#datepicker-start" ).datepicker({ dateFormat: 'yy-mm-dd' });
-    $( "#datepicker-until" ).datepicker({ dateFormat: 'yy-mm-dd' });
+    $( "#from" ).datepicker({ dateFormat: 'yy-mm-dd' });
+    $( "#to" ).datepicker({ dateFormat: 'yy-mm-dd' });
 });
