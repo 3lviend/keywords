@@ -1,56 +1,56 @@
-window.onload = function () {
+// window.onload = function () {
 
-  var chart = new CanvasJS.Chart("chartContainer",
-  {
-    title:{
-    text: ""   
-    },
-    animationEnabled: true,
-    axisX:{
-      title: "Date"
-    },
-    axisY:{
-      title: "Keywords"
-    },
-    axisY:{
-       interval: 8
-     },
-    data: [
-    {        
-      type: "stackedColumn100",
-      name: "Sample 1",
-      showInLegend: "true",
-      dataPoints: [
-      {  y: 10, label: "Apr 05"},
-      {  y: 10, label: "Apr 12" },
+//   var chart = new CanvasJS.Chart("chartContainer",
+//   {
+//     title:{
+//     text: ""   
+//     },
+//     animationEnabled: true,
+//     axisX:{
+//       title: "Dates"
+//     },
+//     axisY:{
+//       title: "Keywords"
+//     },
+//     axisY:{
+//        interval: 8
+//      },
+//     data: [
+//     {        
+//       type: "stackedColumn100",
+//       name: "Sample 1",
+//       showInLegend: "true",
+//       dataPoints: [
+//       {  y: 10, label: "Apr 05"},
+//       {  y: 10, label: "Apr 12" },
               
-      ]
-    }, {        
-      type: "stackedColumn100",        
-      name: "Sample 2",
-      showInLegend: "true",
-      dataPoints: [
-      {  y: 10, label: "Apr 05"},
-      {  y: 14, label: "Apr 12" },
+//       ]
+//     }, {        
+//       type: "stackedColumn100",        
+//       name: "Sample 2",
+//       showInLegend: "true",
+//       dataPoints: [
+//       {  y: 10, label: "Apr 05"},
+//       {  y: 14, label: "Apr 12" },
                
-      ]
-    },
-     {        
-      type: "stackedColumn100",        
-      name: "Sample 3",
-      showInLegend: "true",
-      dataPoints: [
-      {  y: 20, label: "Apr 05"},
-      {  y: 14, label: "Apr 12" },
+//       ]
+//     },
+//      {        
+//       type: "stackedColumn100",        
+//       name: "Sample 3",
+//       showInLegend: "true",
+//       dataPoints: [
+//       {  y: 20, label: "Apr 05"},
+//       {  y: 14, label: "Apr 12" },
               
-      ]
-    }
+//       ]
+//     }
 
-    ],  
-  });
+//     ],  
+//   });
 
-  chart.render();
-}
+//   chart.render();
+// }
 
 
 $(document).ready(function(){
@@ -135,3 +135,22 @@ $(window).ready(function(){
   }
 
 });
+
+function generateCharts(datas, interval){
+  var chart = new CanvasJS.Chart("chartContainer",
+    {
+     animationEnabled: true,
+
+      axisY:{
+        valueFormatString:"#0", 
+        interval: interval,
+        gridColor: "#B6B1A8",
+        tickColor: "#B6B1A8",
+        interlacedColor: "rgba(182,177,168,0.2)"
+
+      },
+      data: datas
+   });
+
+chart.render();
+}

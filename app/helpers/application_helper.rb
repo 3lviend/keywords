@@ -309,6 +309,88 @@ module ApplicationHelper
 		return keywords
 	end
 
+	def build_chart_datas(keywords)
+		keywords = keywords.group_by(&:avg_position)
+		blue, yellow, green, gray, l_gray = [], [], [], [], []
+		keywords.each do |k|
+			if k[0] > 20
+				l_gray << k[1].size
+			elsif k[0] < 21 && k[0] > 9.9
+				gray << k[1].size
+			elsif k[0] < 11 && k[0] > 4.9
+				green << k[1].size
+			elsif k[0] < 5 && k[0] > 2.9
+				yellow << k[1].size
+			else	
+				blue << k[1].size
+			end
+		end
+
+		[blue, yellow, green, gray, l_gray]
+	end
+
+	def chart_structure(keywords, keywords2)
+	   blue, yellow, green, gray, l_gray = build_chart_datas(keywords)
+	   s_blue, s_yellow, s_green, s_gray, s_l_gray = build_chart_datas(keywords2)
+	   first_period = keywords.first.date.strftime('%D')
+	   second_period = keywords2.first.date.strftime('%D')
+
+	   blue_text = "{        
+       type: 'stackedColumn',       
+       showInLegend:true,
+       color: '#096AE8',
+       name:'1-2',
+       dataPoints: [
+       {  y: #{blue.sum}, label: '#{first_period}'},
+       {  y: #{s_blue.sum}, label: '#{second_period}'}
+       ]
+       },"
+       yellow_text = "{        
+       type: 'stackedColumn',       
+       showInLegend:true,
+       color: '#C28F02',
+       name:'3-4',
+       dataPoints: [
+       {  y: #{yellow.sum}, label: '#{first_period}'},
+       {  y: #{s_yellow.sum}, label: '#{second_period}'}
+       ]
+       },"
+       green_text = "{        
+       type: 'stackedColumn',       
+       showInLegend:true,
+       color: '#107502',
+       name:'5-10',
+       dataPoints: [
+       {  y: #{green.sum}, label: '#{first_period}'},
+       {  y: #{s_green.sum}, label: '#{second_period}'}
+       ]
+       },"
+       grey_text = "{        
+       type: 'stackedColumn',       
+       showInLegend:true,
+       color: '#949699',
+       name:'11-20',
+       dataPoints: [
+       {  y: #{gray.sum}, label: '#{first_period}'},
+       {  y: #{s_gray.sum}, label: '#{second_period}'}
+       ]
+       },"
+       l_grey_text = "{        
+       type: 'stackedColumn',       
+       showInLegend:true,
+       color: '#C0C2C4',
+       name:'>20',
+       dataPoints: [
+       {  y: #{l_gray.sum}, label: '#{first_period}'},
+       {  y: #{s_l_gray.sum}, label: '#{second_period}'}
+       ]
+       }"
+
+       interval = 8
+       interval = 100 if (blue+yellow+green+gray+l_gray).sum > 100 || (s_blue+s_yellow+s_green+s_gray+s_l_gray).sum > 100
+       ["["+blue_text+yellow_text+green_text+grey_text+l_grey_text+"]", interval]
+	end
+
 	# def rankings_sorting(key)
 	# 	sums_by_id = []
 	# 	keywords = key.group_by(&:query).sort_by{|q, s|s.sum(&:impressions)}.reverse.first(10)
