@@ -14,29 +14,88 @@
         <tr>
             <!-- title 1 -->
             <th>Overall</th>
-            <td><%= overall_tnk(@keywords_1) %><br>+<%= new_queries_tnk(@keywords_1) %></td>
-            <td><%= overall_visbl(@keywords_1) %><br>Impressions<br>+<%= new_queries_visbl(@keywords_1) %><br>(+10%)</td>
-            <td><%= overall_traffic(@keywords_1) %><br>Clicks<br>+<%= new_queries_traffic(@keywords_1) %><br>(xx.xx%)</td>
-            <td><%= overall_avg_ctr(@keywords_1) %><br>+x,xxx<br>(xx.xx%)</td>
-            <td><%= overall_avg_position(@keywords_1) %><br>+x,xxx<br>(xx.xx%)</td>
+            <td>
+                <%= overall_tnk(@keywords_1, @keywords_2) %><br>
+                +<%= new_queries_tnk(@keywords_1, @keywords_2) %>
+            </td>
+            <td>
+                <%= overall_visbl(@keywords_1, @keywords_2) %><br>
+                Impressions<br>
+                +<%= visibility_new_true(@keywords_1, @keywords_2) %><br>
+                (<%= overall_visibility_percentage(@keywords_1, @keywords_2) %>)
+            </td>
+            <td>
+                <%= overall_traffic(@keywords_1, @keywords_2) %><br>
+                Clicks<br>
+                +<%= traffic_new_true(@keywords_1, @keywords_2) %><br>
+                (<%= overall_traffic_percentage(@keywords_1, @keywords_2) %>)
+            </td>
+            <td>
+                <%= number_with_precision(overall_avg_ctr(@keywords_1, @keywords_2), :precision => 2) %><br>
+                +<%= avg_ctr_new_true(@keywords_1, @keywords_2)%><br>
+                (<%= overall_avg_CTR_percentage(@keywords_1, @keywords_2)%>)
+            </td>
+            <td>
+                <%= number_with_precision(overall_avg_position(@keywords_1, @keywords_2), :precision => 2) %><br>
+                +<%= number_with_precision(avg_position_new_true(@keywords_1, @keywords_2), :precision => 2)%><br>
+                (<%= overall_avg_position_percentage(@keywords_1, @keywords_2)%>)
+            </td>
         </tr>
         <tr>
             <!-- title 2 -->
             <th>New queries</th>
-            <td><%= new_queries_tnk(@keywords_1) %></td>
-            <td><%= new_queries_visbl(@keywords_1) %><br>+100<br>(+1%)</td>
-            <td><%= new_queries_traffic(@keywords_1) %><br>Clicks<br>+x,xxx<br>(xx.xx%)</td>
-            <td><%= new_queries_avg_ctr(@keywords_1) %><br>+x,xxx<br>(xx.xx%)</td>
-            <td><%= new_queries_avg_position(@keywords_1) %><br>+x,xxx<br>(xx.xx%)</td>
+            <td>
+                <%= new_queries_tnk(@keywords_1, @keywords_2) %>
+            </td>
+            <td>
+                <%= visibility_new_true(@keywords_1, @keywords_2) %><br>
+                +<%= visibility_existing_true(@keywords_2) %><br>
+                (<%= new_queries_visibility_percentage(@keywords_1, @keywords_2)%>)
+            </td>
+            <td>
+                <%= traffic_new_true(@keywords_1, @keywords_2) %><br>
+                Clicks<br>
+                <%= traffic_existing_true(@keywords_2) %><br>
+                (<%= new_queries_traffic_percentage(@keywords_1, @keywords_2) %>)
+            </td>
+            <td>
+                <%= avg_ctr_new_true(@keywords_1, @keywords_2) %><br>
+                +<%= avg_ctr_existing_true(@keywords_2) %><br>
+                (<%= new_queries_avg_CTR_percentage(@keywords_1, @keywords_2) %>)
+            </td>
+            <td>
+                <%= number_with_precision(avg_position_new_true(@keywords_1, @keywords_2), :precision => 2) %><br>
+                +<%= number_with_precision(avg_positio_existing_true(@keywords_2), :precision => 2) %><br>
+                (<%= new_queries_avg_position_percentage(@keywords_1, @keywords_2) %>)
+            </td>
         </tr>
         <tr>
             <!-- title 3 -->
             <th>Existing queries</th>
-            <td><%= existing_queries_tnk(@keywords_1) %></td>
-            <td><%= existing_queries_visbl(@keywords_1) %><br> +100,000<br> (+13%)</td>
-            <td><%= existing_queries_traffic(@keywords_1) %><br>Clicks<br>+x,xxx<br>(xx.xx%)</td>
-            <td><%= existing_queries_avg_ctr(@keywords_1) %><br>+x,xxx<br>(xx.xx%)</td>
-            <td><%= existing_queries_avg_position(@keywords_1) %><br>+x,xxx<br>(xx.xx%)</td>
+            <td>
+                <%= existing_queries_tnk(@keywords_1, @keywords_2) %>
+            </td>
+            <td>
+                <%= visibility_new_false(@keywords_1, @keywords_2) %><br>
+                +<%= visibility_existing_false(@keywords_2) %><br>
+                (<%= existing_queries_percentage(@keywords_1, @keywords_2)%>)
+            </td>
+            <td>
+                <%= traffic_new_false(@keywords_1,@keywords_2) %><br>
+                Clicks<br>
+                +<%= traffic_existing_false(@keywords_2)%><br>
+                (<%= existing_queries_traffic_percentage(@keywords_1, @keywords_2)%>)
+            </td>
+            <td>
+                <%= number_with_precision(avg_ctr_new_false(@keywords_1, @keywords_2), :precision => 2) %><br>
+                +<%= number_with_precision(avg_ctr_existing_false(@keywords_2), :precision => 2)%><br>
+                (<%= existing_queries_avg_CTR_percentage(@keywords_1, @keywords_2)%>)
+            </td>
+            <td>
+                <%= number_with_precision(avg_position_new_false(@keywords_1, @keywords_2), :precision => 2) %><br>
+                +<%= number_with_precision(avg_positio_existing_false(@keywords_2), :precision => 2)%><br>
+                (<%= existing_queries_avg_position_percentage(@keywords_1, @keywords_2)%>)
+            </td>
         </tr>
         </tbody>
     </table>

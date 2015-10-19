@@ -1,72 +1,167 @@
 module ApplicationHelper
 
-	def overall_tnk(key)
-		key.size
+	# Total Number of Keywords #
+	def overall_tnk(key_1, key_2)
+		(key_1.size + key_2.size)
 	end
 
-	def new_queries_tnk(key)
-		key.find_all{|k|k if k.new}.size
+	def new_queries_tnk(key_1, key_2)
+		(key_1.find_all{|k|k if k.new}.size) + (key_2.find_all{|k|k if k.new}.size)
 	end
 
-	def existing_queries_tnk(key)
-		key.find_all{|k|k if !k.new}.size
+	def existing_queries_tnk(key_1, key_2)
+		(key_1.find_all{|k|k if !k.new}.size) + (key_2.find_all{|k|k if !k.new}.size)
 	end
 
-	def overall_visbl(key)
-		key.sum(:impressions)
-		# key.map(&:impressions).inject{|sum,x| sum + x }
+	# Visibility (current) #
+	def overall_visbl(key_1, key_2)
+		(key_1.map(&:impressions).inject{|sum,x| sum + x }) + (key_2.map(&:impressions).inject{|sum,x| sum + x })
 	end
 
-	def new_queries_visbl(key)
-		key.find_all{|k|k if k.new}.map(&:impressions).inject{|sum,x| sum + x }
+	def visibility_new_true(key_1, key_2)
+		(key_1.find_all{|k|k if k.new}.sum(&:impressions)) + (key_2.find_all{|k|k if k.new}.sum(&:impressions))
 	end
 
-	def existing_queries_visbl(key)
-		key.find_all{|k|k if !k.new}.map(&:impressions).inject{|sum,x| sum + x }
+	def visibility_new_false(key_1, key_2)
+		(key_1.find_all{|k|k if !k.new}.sum(&:impressions)) + (key_2.find_all{|k|k if !k.new}.sum(&:impressions))
 	end
 
-	def overall_traffic(key)
-
-		key.map(&:clicks).inject{|sum,x| sum + x }
+	def visibility_existing_true(key_2)
+		key_2.find_all{|k|k if k.new}.sum(&:impressions)
 	end
 
-	def new_queries_traffic(key)
-		key.find_all{|k|k if k.new}.map(&:clicks).inject{|sum,x| sum + x }
+	def visibility_existing_false(key_2)
+		key_2.find_all{|k|k if !k.new}.sum(&:impressions)
 	end
 
-	def existing_queries_traffic(key)
-		key.find_all{|k|k if !k.new}.map(&:clicks).inject{|sum,x| sum + x }
+	def overall_visibility_percentage(key_1, key_2)
+		ovp = visibility_new_true(key_1, key_2) / overall_visbl(key_1, key_2)
+		number_to_percentage(ovp, precision: 2)
 	end
 
-	def overall_avg_ctr(key)
-		sum = (key.map(&:ctr).inject{|sum,x| sum + x }).to_f / (key.map(&:ctr).size)
-		number_to_percentage(sum, precision: 2)
+	def new_queries_visibility_percentage(key_1, key_2)
+		ovp = visibility_existing_true(key_2) / visibility_new_true(key_1, key_2)
+		number_to_percentage(ovp, precision: 2)
 	end
 
-	def new_queries_avg_ctr(key)
-		sum = (key.find_all{|k|k if k.new}.map(&:ctr).inject{|sum,x| sum + x }).to_f / (key.find_all{|k|k if k.new}.size)
-		number_to_percentage(sum, precision: 2)
+	def existing_queries_percentage(key_1, key_2)
+		ovp = visibility_existing_false(key_2) / visibility_new_false(key_1, key_2)
+		number_to_percentage(ovp, precision: 2)
 	end
 
-	def existing_queries_avg_ctr(key)
-		sum = (key.find_all{|k|k if !k.new}.map(&:ctr).inject{|sum,x| sum + x }).to_f / (key.find_all{|k|k if !k.new}.size)
-		number_to_percentage(sum, precision: 2)
+	# Traffic #
+	def overall_traffic(key_1, key_2)
+		key_1.map(&:clicks).inject{|sum,x| sum + x } + key_2.map(&:clicks).inject{|sum,x| sum + x }
 	end
 
-	def overall_avg_position(key)
-		sum = (key.map(&:avg_position).inject{|sum,x| sum + x }).to_f / (key.size)
-		number_to_percentage(sum, precision: 2)
+	def traffic_new_true(key_1, key_2)
+		key_1.find_all{|k|k if k.new}.sum(&:clicks) + key_2.find_all{|k|k if k.new}.sum(&:clicks)
 	end
 
-	def new_queries_avg_position(key)
-		sum = (key.find_all{|k|k if k.new}.map(&:avg_position).inject{|sum,x| sum + x }).to_f / (key.find_all{|k|k if k.new}.size)
-		number_to_percentage(sum, precision: 2)
+	def traffic_new_false(key_1, key_2)
+		key_1.find_all{|k|k if !k.new}.sum(&:clicks) + key_2.find_all{|k|k if !k.new}.sum(&:clicks)
 	end
 
-	def existing_queries_avg_position(key)
-		sum = (key.find_all{|k|k if !k.new}.map(&:avg_position).inject{|sum,x| sum + x }).to_f / (key.find_all{|k|k if !k.new}.size)
-	    number_to_percentage(sum, precision: 2)
+	def traffic_existing_true(key_2)
+		key_2.find_all{|k|k if k.new}.sum(&:clicks)
 	end
+
+	def traffic_existing_false(key_2)
+		key_2.find_all{|k|k if !k.new}.sum(&:clicks)
+	end
+
+	def overall_traffic_percentage(key_1, key_2)
+		ovp = traffic_new_true(key_1, key_2) / overall_traffic(key_1, key_2)
+		number_to_percentage(ovp, precision: 2)
+	end
+
+	def new_queries_traffic_percentage(key_1, key_2)
+		ovp = traffic_existing_true(key_2) / traffic_new_true(key_1, key_2)
+		number_to_percentage(ovp, precision: 2)
+	end
+
+	def existing_queries_traffic_percentage(key_1, key_2)
+		ovp = traffic_existing_false(key_2) / traffic_new_false(key_1, key_2)
+		number_to_percentage(ovp, precision: 2)
+	end
+
+	# Average CTR #
+	def overall_avg_ctr(key_1, key_2)
+		(key_1.map(&:ctr).inject{|sum,x| sum + x } + key_2.map(&:ctr).inject{|sum,x| sum + x }) / (key_1.map(&:ctr).size + key_2.map(&:ctr).size)
+	end
+
+	def avg_ctr_new_true(key_1, key_2)
+		(key_1.find_all{|k|k if k.new}.sum(&:ctr) + key_2.find_all{|k|k if k.new}.sum(&:ctr)) / (key_1.find_all{|k|k if k.new}.size + key_2.find_all{|k|k if k.new}.size)
+	end
+
+	def avg_ctr_new_false(key_1, key_2)
+		(key_1.find_all{|k|k if !k.new}.sum(&:ctr) + key_2.find_all{|k|k if !k.new}.sum(&:ctr)) / (key_1.find_all{|k|k if !k.new}.size + key_2.find_all{|k|k if !k.new}.size)
+	end
+
+	def avg_ctr_existing_true(key_2)
+		(key_2.find_all{|k|k if k.new}.sum(&:ctr)) / (key_2.find_all{|k|k if k.new}.size)
+	end
+
+	def avg_ctr_existing_false(key_2)
+		(key_2.find_all{|k|k if !k.new}.sum(&:ctr)) / (key_2.find_all{|k|k if !k.new}.size)  
+	end
+
+	def overall_avg_CTR_percentage(key_1, key_2)
+		ovp = avg_ctr_new_true(key_1, key_2) / overall_avg_ctr(key_1, key_2)
+		number_to_percentage(ovp, precision: 2)
+	end
+
+	def new_queries_avg_CTR_percentage(key_1, key_2)
+		ovp = avg_ctr_existing_true(key_2) / avg_ctr_new_true(key_1, key_2)
+		number_to_percentage(ovp, precision: 2)
+	end
+
+	def existing_queries_avg_CTR_percentage(key_1, key_2)
+		ovp = avg_ctr_existing_false(key_2) / avg_ctr_new_false(key_1, key_2)
+		number_to_percentage(ovp, precision: 2)
+	end
+
+	# Average Position
+	def overall_avg_position(key_1, key_2)
+		(key_1.map(&:avg_position).inject{|sum,x| sum + x } + key_2.map(&:avg_position).inject{|sum,x| sum + x }) / (key_1.map(&:avg_position).size + key_2.map(&:avg_position).size)
+	end
+
+	def avg_position_new_true(key_1, key_2)
+		(key_1.find_all{|k|k if k.new}.sum(&:avg_position) + key_2.find_all{|k|k if k.new}.sum(&:avg_position)) / (key_1.find_all{|k|k if k.new}.size + key_2.find_all{|k|k if k.new}.size)
+	end
+
+	def avg_position_new_false(key_1, key_2)
+		(key_1.find_all{|k|k if !k.new}.sum(&:avg_position) + key_2.find_all{|k|k if !k.new}.sum(&:avg_position)) / (key_1.find_all{|k|k if !k.new}.size + key_2.find_all{|k|k if !k.new}.size)
+	end
+
+	def avg_positio_existing_true(key_2)
+		(key_2.find_all{|k|k if k.new}.sum(&:avg_position)) / (key_2.find_all{|k|k if k.new}.size)
+	end
+
+	def avg_positio_existing_false(key_2)
+		(key_2.find_all{|k|k if !k.new}.sum(&:avg_position)) / (key_2.find_all{|k|k if !k.new}.size)
+	end
+
+	def overall_avg_position_percentage(key_1, key_2)
+		ovp = avg_position_new_true(key_1, key_2) / overall_avg_position(key_1, key_2)
+		number_to_percentage(ovp, precision: 2)
+	end
+
+	def new_queries_avg_position_percentage(key_1, key_2)
+		ovp = avg_positio_existing_true(key_2) / avg_position_new_true(key_1, key_2)
+		number_to_percentage(ovp, precision: 2)
+	end
+
+	def existing_queries_avg_position_percentage(key_1, key_2)
+		ovp = avg_positio_existing_false(key_2) / avg_position_new_false(key_1, key_2)
+		number_to_percentage(ovp, precision: 2)
+	end
+
+
+
+
+
+
 
 	def top_ten_on_clicks(key)
 		# sums_by_id = []
