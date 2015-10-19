@@ -10,7 +10,7 @@
             </tr>
         </thead>
         <tbody>
-            <% lost_rankings(@keywords).each_with_index do |val, index| %>
+            <% lost_rankings(@keywords_1).each_with_index do |val, index| %>
               <tr>
                 <td><%= val[0] %></td>
                 <td><%= val[1].sum(&:impressions) %> <br> Impressions <br> +100,000 (+10%)</td>

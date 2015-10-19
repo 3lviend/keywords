@@ -14,29 +14,29 @@
         <tr>
             <!-- title 1 -->
             <th>Overall</th>
-            <td><%= overall_tnk(@keywords) %><br>+<%= new_queries_tnk(@keywords) %></td>
-            <td><%= overall_visbl(@keywords) %><br>Impressions<br>+<%= new_queries_visbl(@keywords) %><br>(+10%)</td>
-            <td><%= overall_traffic(@keywords) %><br>Clicks<br>+<%= new_queries_traffic(@keywords) %><br>(xx.xx%)</td>
-            <td><%= overall_avg_ctr(@keywords) %><br>+x,xxx<br>(xx.xx%)</td>
-            <td><%= overall_avg_position(@keywords) %><br>+x,xxx<br>(xx.xx%)</td>
+            <td><%= overall_tnk(@keywords_1) %><br>+<%= new_queries_tnk(@keywords_1) %></td>
+            <td><%= overall_visbl(@keywords_1) %><br>Impressions<br>+<%= new_queries_visbl(@keywords_1) %><br>(+10%)</td>
+            <td><%= overall_traffic(@keywords_1) %><br>Clicks<br>+<%= new_queries_traffic(@keywords_1) %><br>(xx.xx%)</td>
+            <td><%= overall_avg_ctr(@keywords_1) %><br>+x,xxx<br>(xx.xx%)</td>
+            <td><%= overall_avg_position(@keywords_1) %><br>+x,xxx<br>(xx.xx%)</td>
         </tr>
         <tr>
             <!-- title 2 -->
             <th>New queries</th>
-            <td><%= new_queries_tnk(@keywords) %></td>
-            <td><%= new_queries_visbl(@keywords) %><br>+100<br>(+1%)</td>
-            <td><%= new_queries_traffic(@keywords) %><br>Clicks<br>+x,xxx<br>(xx.xx%)</td>
-            <td><%= new_queries_avg_ctr(@keywords) %><br>+x,xxx<br>(xx.xx%)</td>
-            <td><%= new_queries_avg_position(@keywords) %><br>+x,xxx<br>(xx.xx%)</td>
+            <td><%= new_queries_tnk(@keywords_1) %></td>
+            <td><%= new_queries_visbl(@keywords_1) %><br>+100<br>(+1%)</td>
+            <td><%= new_queries_traffic(@keywords_1) %><br>Clicks<br>+x,xxx<br>(xx.xx%)</td>
+            <td><%= new_queries_avg_ctr(@keywords_1) %><br>+x,xxx<br>(xx.xx%)</td>
+            <td><%= new_queries_avg_position(@keywords_1) %><br>+x,xxx<br>(xx.xx%)</td>
         </tr>
         <tr>
             <!-- title 3 -->
             <th>Existing queries</th>
-            <td><%= existing_queries_tnk(@keywords) %></td>
-            <td><%= existing_queries_visbl(@keywords) %><br> +100,000<br> (+13%)</td>
-            <td><%= existing_queries_traffic(@keywords) %><br>Clicks<br>+x,xxx<br>(xx.xx%)</td>
-            <td><%= existing_queries_avg_ctr(@keywords) %><br>+x,xxx<br>(xx.xx%)</td>
-            <td><%= existing_queries_avg_position(@keywords) %><br>+x,xxx<br>(xx.xx%)</td>
+            <td><%= existing_queries_tnk(@keywords_1) %></td>
+            <td><%= existing_queries_visbl(@keywords_1) %><br> +100,000<br> (+13%)</td>
+            <td><%= existing_queries_traffic(@keywords_1) %><br>Clicks<br>+x,xxx<br>(xx.xx%)</td>
+            <td><%= existing_queries_avg_ctr(@keywords_1) %><br>+x,xxx<br>(xx.xx%)</td>
+            <td><%= existing_queries_avg_position(@keywords_1) %><br>+x,xxx<br>(xx.xx%)</td>
         </tr>
         </tbody>
     </table>
