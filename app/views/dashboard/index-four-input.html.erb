@@ -4,22 +4,33 @@
       <%= form_tag select_date_path, :method => 'get', multipart: true do %>
         <div class="col-md-3">
           <div class="form-group">
-            <label>Select Range Date</label>
+            <label>Start Date</label>
             <p><%= text_field_tag 'search[from_1]', (params[:search][:from_1] rescue ''), :id=>"from", :class=>"form-control" %></p>
           </div>
         </div>
         <div class="col-md-3">
           <div class="form-group">
-            <label>Compared To</label>
+            <label>Until Date</label>
             <%= text_field_tag 'search[to_1]', (params[:search][:to_1] rescue ''), :id=>"to" , :class=>"form-control"%>
           </div>
-          <div ></div>
         </div>
         <div class="col-md-3">
           <div class="form-group">
-            <label class="cs-label"></label>
-            <%= submit_tag "Search", :name => nil, :class=>"form-control cs-form-control btn btn-primary pst" %>
+            <label>Compare Start Date</label>
+            <p><%= text_field_tag 'search[from_2]', (params[:search][:from_2] rescue ''), :id=>"from", :class=>"form-control" %></p>
           </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Compare Until Date</label>
+            <%= text_field_tag 'search[to_2]', (params[:search][:to_2] rescue ''), :id=>"to" , :class=>"form-control"%>
+          </div>
+        </div>
+        <div class="col-md-3">
+        	<div class="form-group">
+        		<label class="cs-label"></label>
+	          <%= submit_tag "Search", :name => nil, :class=>"form-control cs-form-control btn btn-primary pst" %>
+	        </div>
         </div>
       <% end %>
     </div>

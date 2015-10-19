@@ -13,4 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require jquery.plugin
+//= require jquery.datepick
+//= require jquery-ui
+//= require jquery.canvasjs.min
 //= require_tree .

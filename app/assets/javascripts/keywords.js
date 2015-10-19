@@ -1,8 +1,3 @@
-$(function() {
-    $( "#from" ).datepicker({ dateFormat: 'yy-mm-dd' });
-    $( "#to" ).datepicker({ dateFormat: 'yy-mm-dd' });
-});
-
 window.onload = function () {
 
   var chart = new CanvasJS.Chart("chartContainer",
@@ -56,10 +51,87 @@ window.onload = function () {
 
   chart.render();
 }
+
+
+$(document).ready(function(){
+  // $(function)() {
+function getFrom(){
+  $( "#from" ).datepick({
+     dateFormat: 'yy-mm-dd', 
+     rangeSelect: true,
+     showTrigger: '#calImg',
+     onClose: function(){
+     // onSelect: function(){
+     // onChangeMonthYear: function(){
+      var date = new Date($('#from').datepick('getDate')[1].getTime()); 
+      date = $.datepick.add(date, 1, "d");
+      $( "#to" ).datepick({
+         dateFormat: 'yy-mm-dd',
+         minDate: date,
+         rangeSelect: true,
+         showTrigger: '#calImg'
+      });
+     }
+  });
+
+  // $('#setDay,#setMonth,#setYear').change(function() { 
+  //       var date = $.datepick.day( 
+  //           $.datepick.month( 
+  //               $.datepick.year( 
+  //                   $.datepick.today(), $('#setYear').val()), 
+  //               $('#setMonth').val()), 
+  //           $('#setDay').val()); 
+  //       $('#setDate').val($.datepick.formatDate(date)); 
+  //   }). 
+  //   change();
+
+  // $('#from').change(function(){
+  //   alert
+  // });
+
+// $( "#from" ).datepick({
+//      onChangeMonthYear: function(){
+//       var date = new Date($('#from').datepick('getDate')[1].getTime()); 
+//       date = $.datepick.add(date, 1, "d");
+//       $( "#to" ).datepick({
+//          dateFormat: 'yy-mm-dd',
+//          minDate: date,
+//          rangeSelect: true,
+//          showTrigger: '#calImg'
+//       });
+//      }
+//    });
+
+}
+
+
+// function getTo(){
+//   dates = $("#from").val().split(" ")[2];
+//   console.log(dates);
+//   $( "#to" ).datepick({
+//      dateFormat: 'yy-mm-dd',
+//      minDate: dates,
+//      rangeSelect: true,
+//      showTrigger: '#calImg'
+//   });
+// }
+
+// $(document).ready(function(){
+// $( "#from" ).focus(function(){
+  getFrom();
+// })
+});
+
+// $('#onSelectPicker').datepick({ 
+//     onSelect: function(dates) { alert('The chosen date(s): ' + dates); }, 
+//     showTrigger: '#calImg'});
+
 $(window).ready(function(){
+
   if (window.location.pathname == "/select_date") {
       $(".back-page").addClass("show");
   }else{
       $(".back-page").removeClass("show");
   }
+
 });
