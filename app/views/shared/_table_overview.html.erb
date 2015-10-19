@@ -32,7 +32,7 @@
             </td>
             <td>
                 <%= number_with_precision(overall_avg_ctr(@keywords_1, @keywords_2), :precision => 2) %><br>
-                +<%= avg_ctr_new_true(@keywords_1, @keywords_2)%><br>
+                +<%= number_with_precision(avg_ctr_new_true(@keywords_1, @keywords_2), :precision => 2)%><br>
                 (<%= overall_avg_CTR_percentage(@keywords_1, @keywords_2)%>)
             </td>
             <td>
@@ -59,8 +59,8 @@
                 (<%= new_queries_traffic_percentage(@keywords_1, @keywords_2) %>)
             </td>
             <td>
-                <%= avg_ctr_new_true(@keywords_1, @keywords_2) %><br>
-                +<%= avg_ctr_existing_true(@keywords_2) %><br>
+                <%= number_with_precision(avg_ctr_new_true(@keywords_1, @keywords_2), :precision => 2) %><br>
+                +<%= number_with_precision(avg_ctr_existing_true(@keywords_2), :precision => 2) %><br>
                 (<%= new_queries_avg_CTR_percentage(@keywords_1, @keywords_2) %>)
             </td>
             <td>

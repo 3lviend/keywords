@@ -15,15 +15,15 @@ module ApplicationHelper
 
 	# Visibility (current) #
 	def overall_visbl(key_1, key_2)
-		(key_1.map(&:impressions).inject{|sum,x| sum + x }) + (key_2.map(&:impressions).inject{|sum,x| sum + x })
+		(key_1.map(&:impressions).inject{|sum,x| sum + x }).to_i + (key_2.map(&:impressions).inject{|sum,x| sum + x }).to_i
 	end
 
 	def visibility_new_true(key_1, key_2)
-		(key_1.find_all{|k|k if k.new}.sum(&:impressions)) + (key_2.find_all{|k|k if k.new}.sum(&:impressions))
+		(key_1.find_all{|k|k if k.new}.sum(&:impressions)).to_i + (key_2.find_all{|k|k if k.new}.sum(&:impressions)).to_i
 	end
 
 	def visibility_new_false(key_1, key_2)
-		(key_1.find_all{|k|k if !k.new}.sum(&:impressions)) + (key_2.find_all{|k|k if !k.new}.sum(&:impressions))
+		(key_1.find_all{|k|k if !k.new}.sum(&:impressions)).to_i + (key_2.find_all{|k|k if !k.new}.sum(&:impressions)).to_i
 	end
 
 	def visibility_existing_true(key_2)
@@ -35,31 +35,34 @@ module ApplicationHelper
 	end
 
 	def overall_visibility_percentage(key_1, key_2)
-		ovp = visibility_new_true(key_1, key_2) / overall_visbl(key_1, key_2)
-		number_to_percentage(ovp, precision: 2)
+		ovp = 0
+		ovp = visibility_new_true(key_1, key_2) / overall_visbl(key_1, key_2).to_f if !overall_visbl(key_1, key_2).eql?(0)
+		number_to_percentage(ovp*100, precision: 2)
 	end
 
 	def new_queries_visibility_percentage(key_1, key_2)
-		ovp = visibility_existing_true(key_2) / visibility_new_true(key_1, key_2)
-		number_to_percentage(ovp, precision: 2)
+		ovp = 0
+		ovp = visibility_existing_true(key_2) / visibility_new_true(key_1, key_2).to_f if !visibility_new_true(key_1, key_2).eql?(0)
+		number_to_percentage(ovp*100, precision: 2)
 	end
 
 	def existing_queries_percentage(key_1, key_2)
-		ovp = visibility_existing_false(key_2) / visibility_new_false(key_1, key_2)
-		number_to_percentage(ovp, precision: 2)
+		ovp = 0
+		ovp = visibility_existing_false(key_2) / visibility_new_false(key_1, key_2).to_f if !visibility_new_false(key_1, key_2).eql?(0)
+		number_to_percentage(ovp*100, precision: 2)
 	end
 
 	# Traffic #
 	def overall_traffic(key_1, key_2)
-		key_1.map(&:clicks).inject{|sum,x| sum + x } + key_2.map(&:clicks).inject{|sum,x| sum + x }
+		key_1.map(&:clicks).inject{|sum,x| sum + x }.to_i + key_2.map(&:clicks).inject{|sum,x| sum + x }.to_i
 	end
 
 	def traffic_new_true(key_1, key_2)
-		key_1.find_all{|k|k if k.new}.sum(&:clicks) + key_2.find_all{|k|k if k.new}.sum(&:clicks)
+		key_1.find_all{|k|k if k.new}.sum(&:clicks).to_i + key_2.find_all{|k|k if k.new}.sum(&:clicks).to_i
 	end
 
 	def traffic_new_false(key_1, key_2)
-		key_1.find_all{|k|k if !k.new}.sum(&:clicks) + key_2.find_all{|k|k if !k.new}.sum(&:clicks)
+		key_1.find_all{|k|k if !k.new}.sum(&:clicks).to_i + key_2.find_all{|k|k if !k.new}.sum(&:clicks).to_i
 	end
 
 	def traffic_existing_true(key_2)
@@ -71,90 +74,125 @@ module ApplicationHelper
 	end
 
 	def overall_traffic_percentage(key_1, key_2)
-		ovp = traffic_new_true(key_1, key_2) / overall_traffic(key_1, key_2)
-		number_to_percentage(ovp, precision: 2)
+		ovp = 0
+		ovp = traffic_new_true(key_1, key_2) / overall_traffic(key_1, key_2).to_f if !overall_traffic(key_1, key_2).eql?(0)
+		number_to_percentage(ovp*100, precision: 2)
 	end
 
 	def new_queries_traffic_percentage(key_1, key_2)
-		ovp = traffic_existing_true(key_2) / traffic_new_true(key_1, key_2)
-		number_to_percentage(ovp, precision: 2)
+		ovp = 0
+		ovp = traffic_existing_true(key_2) / traffic_new_true(key_1, key_2).to_f if !traffic_new_true(key_1, key_2).eql?(0)
+		number_to_percentage(ovp*100, precision: 2)
 	end
 
 	def existing_queries_traffic_percentage(key_1, key_2)
-		ovp = traffic_existing_false(key_2) / traffic_new_false(key_1, key_2)
-		number_to_percentage(ovp, precision: 2)
+		ovp = 0
+		ovp = traffic_existing_false(key_2) / traffic_new_false(key_1, key_2).to_f if !traffic_new_false(key_1, key_2).eql?(0)
+		number_to_percentage(ovp*100, precision: 2)
 	end
 
 	# Average CTR #
 	def overall_avg_ctr(key_1, key_2)
-		(key_1.map(&:ctr).inject{|sum,x| sum + x } + key_2.map(&:ctr).inject{|sum,x| sum + x }) / (key_1.map(&:ctr).size + key_2.map(&:ctr).size)
+		devided = (key_1.map(&:ctr).size + key_2.map(&:ctr).size)
+		return 0 if devided.eql?(0)
+		(key_1.map(&:ctr).inject{|sum,x| sum + x }.to_i + key_2.map(&:ctr).inject{|sum,x| sum + x }.to_i) / (key_1.map(&:ctr).size + key_2.map(&:ctr).size).to_f
 	end
 
 	def avg_ctr_new_true(key_1, key_2)
-		(key_1.find_all{|k|k if k.new}.sum(&:ctr) + key_2.find_all{|k|k if k.new}.sum(&:ctr)) / (key_1.find_all{|k|k if k.new}.size + key_2.find_all{|k|k if k.new}.size)
+		devided = (key_1.find_all{|k|k if k.new}.size + key_2.find_all{|k|k if k.new}.size)
+		return 0 if devided.eql?(0)
+		(key_1.find_all{|k|k if k.new}.sum(&:ctr).to_f + key_2.find_all{|k|k if k.new}.sum(&:ctr)).to_f / (key_1.find_all{|k|k if k.new}.size + key_2.find_all{|k|k if k.new}.size).to_f
 	end
 
 	def avg_ctr_new_false(key_1, key_2)
-		(key_1.find_all{|k|k if !k.new}.sum(&:ctr) + key_2.find_all{|k|k if !k.new}.sum(&:ctr)) / (key_1.find_all{|k|k if !k.new}.size + key_2.find_all{|k|k if !k.new}.size)
+		devided = (key_1.find_all{|k|k if !k.new}.size + key_2.find_all{|k|k if !k.new}.size)
+		return 0 if devided.eql?(0)
+		(key_1.find_all{|k|k if !k.new}.sum(&:ctr).to_i + key_2.find_all{|k|k if !k.new}.sum(&:ctr)).to_f / (key_1.find_all{|k|k if !k.new}.size + key_2.find_all{|k|k if !k.new}.size).to_f
 	end
 
 	def avg_ctr_existing_true(key_2)
-		(key_2.find_all{|k|k if k.new}.sum(&:ctr)) / (key_2.find_all{|k|k if k.new}.size)
+		devided = key_2.find_all{|k|k if k.new}.size
+		return 0 if devided.eql?(0)
+		(key_2.find_all{|k|k if k.new}.sum(&:ctr)) / (key_2.find_all{|k|k if k.new}.size).to_f
 	end
 
 	def avg_ctr_existing_false(key_2)
-		(key_2.find_all{|k|k if !k.new}.sum(&:ctr)) / (key_2.find_all{|k|k if !k.new}.size)  
+		devided = (key_2.find_all{|k|k if !k.new}.size)  
+		return 0 if devided.eql?(0)
+		(key_2.find_all{|k|k if !k.new}.sum(&:ctr)) / (key_2.find_all{|k|k if !k.new}.size).to_f  
 	end
 
 	def overall_avg_CTR_percentage(key_1, key_2)
-		ovp = avg_ctr_new_true(key_1, key_2) / overall_avg_ctr(key_1, key_2)
-		number_to_percentage(ovp, precision: 2)
+		devided = overall_avg_ctr(key_1, key_2) 
+		return 0.0 if devided.eql?(0)
+		ovp = avg_ctr_new_true(key_1, key_2) / overall_avg_ctr(key_1, key_2).to_f
+		number_to_percentage(ovp*100, precision: 2)
 	end
 
 	def new_queries_avg_CTR_percentage(key_1, key_2)
-		ovp = avg_ctr_existing_true(key_2) / avg_ctr_new_true(key_1, key_2)
-		number_to_percentage(ovp, precision: 2)
+		devided = avg_ctr_new_true(key_1, key_2)
+		return 0.0 if devided.eql?(0)
+		ovp = avg_ctr_existing_true(key_2) / avg_ctr_new_true(key_1, key_2).to_f
+		number_to_percentage(ovp*100, precision: 2)
 	end
 
 	def existing_queries_avg_CTR_percentage(key_1, key_2)
-		ovp = avg_ctr_existing_false(key_2) / avg_ctr_new_false(key_1, key_2)
-		number_to_percentage(ovp, precision: 2)
+		devided = avg_ctr_new_false(key_1, key_2)
+		return 0.0 if devided.eql?(0)
+		ovp = avg_ctr_existing_false(key_2) / avg_ctr_new_false(key_1, key_2).to_f
+		number_to_percentage(ovp*100, precision: 2)
 	end
 
 	# Average Position
 	def overall_avg_position(key_1, key_2)
-		(key_1.map(&:avg_position).inject{|sum,x| sum + x } + key_2.map(&:avg_position).inject{|sum,x| sum + x }) / (key_1.map(&:avg_position).size + key_2.map(&:avg_position).size)
+		devided = (key_1.map(&:avg_position).size + key_2.map(&:avg_position).size)
+		return 0 if devided.eql?(0)
+		(key_1.map(&:avg_position).inject{|sum,x| sum + x }.to_i + key_2.map(&:avg_position).inject{|sum,x| sum + x }.to_i) / devided.to_f
 	end
 
 	def avg_position_new_true(key_1, key_2)
-		(key_1.find_all{|k|k if k.new}.sum(&:avg_position) + key_2.find_all{|k|k if k.new}.sum(&:avg_position)) / (key_1.find_all{|k|k if k.new}.size + key_2.find_all{|k|k if k.new}.size)
+		devided = (key_1.find_all{|k|k if k.new}.size + key_2.find_all{|k|k if k.new}.size)
+		return 0 if devided.eql?(0)
+		(key_1.find_all{|k|k if k.new}.sum(&:avg_position) + key_2.find_all{|k|k if k.new}.sum(&:avg_position)) / devided.to_f
 	end
 
 	def avg_position_new_false(key_1, key_2)
-		(key_1.find_all{|k|k if !k.new}.sum(&:avg_position) + key_2.find_all{|k|k if !k.new}.sum(&:avg_position)) / (key_1.find_all{|k|k if !k.new}.size + key_2.find_all{|k|k if !k.new}.size)
+		devided = (key_1.find_all{|k|k if !k.new}.size + key_2.find_all{|k|k if !k.new}.size)
+		return 0 if devided.eql?(0)
+		(key_1.find_all{|k|k if !k.new}.sum(&:avg_position) + key_2.find_all{|k|k if !k.new}.sum(&:avg_position)) / devided.to_f
 	end
 
 	def avg_positio_existing_true(key_2)
-		(key_2.find_all{|k|k if k.new}.sum(&:avg_position)) / (key_2.find_all{|k|k if k.new}.size)
+		devided = (key_2.find_all{|k|k if k.new}.size)
+		return 0 if devided.eql?(0)
+		(key_2.find_all{|k|k if k.new}.sum(&:avg_position)) / devided.to_f
 	end
 
 	def avg_positio_existing_false(key_2)
-		(key_2.find_all{|k|k if !k.new}.sum(&:avg_position)) / (key_2.find_all{|k|k if !k.new}.size)
+		devided = (key_2.find_all{|k|k if !k.new}.size)
+		return 0 if devided.eql?(0)
+		(key_2.find_all{|k|k if !k.new}.sum(&:avg_position)) / devided.to_f
 	end
 
 	def overall_avg_position_percentage(key_1, key_2)
-		ovp = avg_position_new_true(key_1, key_2) / overall_avg_position(key_1, key_2)
-		number_to_percentage(ovp, precision: 2)
+		devided = overall_avg_position(key_1, key_2)
+		return 0.0 if devided.eql?(0)
+		ovp = avg_position_new_true(key_1, key_2) / devided.to_f
+		number_to_percentage(ovp*100, precision: 2)
 	end
 
 	def new_queries_avg_position_percentage(key_1, key_2)
-		ovp = avg_positio_existing_true(key_2) / avg_position_new_true(key_1, key_2)
-		number_to_percentage(ovp, precision: 2)
+		devided = avg_position_new_true(key_1, key_2)
+		return 0.0 if devided.eql?(0)
+		ovp = avg_positio_existing_true(key_2) / avg_position_new_true(key_1, key_2).to_f
+		number_to_percentage(ovp*100, precision: 2)
 	end
 
 	def existing_queries_avg_position_percentage(key_1, key_2)
-		ovp = avg_positio_existing_false(key_2) / avg_position_new_false(key_1, key_2)
-		number_to_percentage(ovp, precision: 2)
+		devided = avg_position_new_false(key_1, key_2)
+		return 0.0 if devided.eql?(0)
+		ovp = avg_positio_existing_false(key_2) / avg_position_new_false(key_1, key_2).to_f
+		number_to_percentage(ovp*100, precision: 2)
 	end
 
 

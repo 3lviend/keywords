@@ -5,8 +5,8 @@ class DashboardController < ApplicationController
 	end
 
 	def select_date
-		@keywords_1 = Keyword.search_first_period(params[:search])
-		@keywords_2 = Keyword.search_second_period(params[:search])
+		@keywords_1 = Keyword.search_keywords_period(params[:search][:date_from])
+		@keywords_2 = Keyword.search_keywords_period(params[:search][:date_to])
 	end
 
   def get_import;end

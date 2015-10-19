@@ -57,7 +57,7 @@ $(document).ready(function(){
   // $(function)() {
 function getFrom(){
   $( "#from" ).datepick({
-     dateFormat: 'yy-mm-dd', 
+     dateFormat: 'yyyy-mm-dd', 
      rangeSelect: true,
      showTrigger: '#calImg',
      onClose: function(){
@@ -66,7 +66,7 @@ function getFrom(){
       var date = new Date($('#from').datepick('getDate')[1].getTime()); 
       date = $.datepick.add(date, 1, "d");
       $( "#to" ).datepick({
-         dateFormat: 'yy-mm-dd',
+         dateFormat: 'yyyy-mm-dd',
          minDate: date,
          rangeSelect: true,
          showTrigger: '#calImg'

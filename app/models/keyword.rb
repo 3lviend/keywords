@@ -26,16 +26,17 @@ class Keyword < ActiveRecord::Base
 	  end
   end
 
-  def self.search_first_period(search)
-  	searchfrom_1 = search["from_1"]
-    searchto_1 = search["to_1"]
-	  where('date between ? and ?', searchfrom_1.to_date, searchto_1.to_date)
-	end
+ #  def self.search_first_period(search)
+ #  	searchfrom_1 = search["from_1"]
+ #    searchto_1 = search["to_1"]
+	#   where('date between ? and ?', searchfrom_1.to_date, searchto_1.to_date)
+	# end
 
-	def self.search_second_period(search)
-  	searchfrom_2 = search["from_2"]
-    searchto_2 = search["to_2"]
-	  where('date between ? and ?', searchfrom_2.to_date, searchto_2.to_date)
-	end
+  def self.search_keywords_period(params_date)
+    dates = params_date.split(" - ")
+  	date_1 = dates[0]
+    date_2 = dates[1]
+	  where('date between ? and ?', date_1.to_date, date_2.to_date)
+  end
 
 end

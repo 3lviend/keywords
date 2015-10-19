@@ -5,13 +5,13 @@
         <div class="col-md-3">
           <div class="form-group">
             <label>Select Range Date</label>
-            <p><%= text_field_tag 'search[from_1]', (params[:search][:from_1] rescue ''), :id=>"from", :class=>"form-control" %></p>
+            <p><%= text_field_tag 'search[date_from]', (params[:search][:date_from] rescue ''), :id=>"from", :class=>"form-control" %></p>
           </div>
         </div>
         <div class="col-md-3">
           <div class="form-group">
             <label>Compared To</label>
-            <%= text_field_tag 'search[to_1]', (params[:search][:to_1] rescue ''), :id=>"to" , :class=>"form-control"%>
+            <%= text_field_tag 'search[date_to]', (params[:search][:date_to] rescue ''), :id=>"to" , :class=>"form-control"%>
           </div>
           <div ></div>
         </div>
