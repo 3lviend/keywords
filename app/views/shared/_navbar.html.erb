@@ -10,13 +10,14 @@
           </button>
           <%= link_to "Keywords", root_path, class: "navbar-brand" %>
         </div>
+        <div class="pull-right change-date"><%= link_to 'Change Date', :back , class: "back-page btn btn-default hide", "data-no-turbolink" => true %>
+        </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><%= link_to "Home", root_path %></li>
-            <li><%= link_to "Import", import_path %></li>
+            <li><%= link_to "Home", root_path, "data-no-turbolink" => true %></li>
+            <li><%= link_to "Import", import_path, "data-no-turbolink" => true %></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-                <p class="pull-right"><%= link_to 'Change Date', :back , class: "back-page btn btn-default hide", "data-no-turbolink" => true %></p>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

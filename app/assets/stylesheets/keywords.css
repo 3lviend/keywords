@@ -10,10 +10,6 @@ body{
 .import h3{
   margin-left: 16px;
 }
-
-#ui-datepicker-div{
-  top: 129px !important;
-}
 .back-page.btn.btn-default{
   padding-bottom: 5px;
   padding-top: 5px;
@@ -49,3 +45,30 @@ td.td8{
 td.td9{
   background: #EAEAEA;
 }
+
+/*Extra small devices Phones*/
+@media(max-width:767px){
+  .pull-right.change-date{
+    margin-top: -50px;
+    margin-right: 59px;
+  }
+}
+
+/*Small devices Tablets*/
+@media(min-width: 200px) and (max-width: 991px){
+  input.form-control.cs-form-control.btn.btn-primary.pst{
+    margin:0px;
+  }
+  label.cs-label{
+    display: none;
+  }
+}
+
+@media(max-width: 992px){
+  .btn-imp-pst{
+    margin-top: 15px;
+  }
+}
+/*Medium devices Desktops*/
+
+/*Large devices Desktops*/
