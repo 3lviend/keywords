@@ -15,6 +15,18 @@
           </div>
         </div>
         <div class="col-md-3">
+          <div class="form-group">
+            <label>Compare Start Date</label>
+            <p><%= text_field_tag 'search[from_2]', (params[:search][:from_2] rescue ''), :id=>"from", :class=>"form-control" %></p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Compare Until Date</label>
+            <%= text_field_tag 'search[to_2]', (params[:search][:to_2] rescue ''), :id=>"to" , :class=>"form-control"%>
+          </div>
+        </div>
+        <div class="col-md-3">
         	<div class="form-group">
         		<label class="cs-label"></label>
 	          <%= submit_tag "Search", :name => nil, :class=>"form-control cs-form-control btn btn-primary pst" %>

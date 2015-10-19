@@ -32,10 +32,10 @@ class Keyword < ActiveRecord::Base
 	  where('date between ? and ?', searchfrom_1.to_date, searchto_1.to_date)
 	end
 
-	# def self.search_second_period(search)
- #  	searchfrom_2 = search["from_2"]
- #    searchto_2 = search["to_2"]
-	#   where('date between ? and ?', searchfrom_2.to_date, searchto_2.to_date)
-	# end
+	def self.search_second_period(search)
+  	searchfrom_2 = search["from_2"]
+    searchto_2 = search["to_2"]
+	  where('date between ? and ?', searchfrom_2.to_date, searchto_2.to_date)
+	end
 
 end
