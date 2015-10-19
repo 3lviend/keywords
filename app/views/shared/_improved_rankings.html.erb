@@ -11,12 +11,14 @@
         </thead>
         <tbody>
             <% improved_rankings(@keywords_1).each_with_index do |val, index| %>
+              <% imp, clicks, ctr, avg_position = collect_datas(val[1]) %>
+              <% s_imp, s_clicks, s_ctr, s_avg_position = s_collect_datas(val[0], @keywords_2) %>
               <tr>
                 <td><%= val[0] %></td>
-                <td><%= val[1].sum(&:impressions) %> <br> Impressions <br> +100,000 (+10%)</td>
-                <td><%= overall_traffic(val[1]) %> <br> Clicks <br> +x,xxx <br> (xx.xx%)</td>
-                <td><%= overall_avg_ctr(val[1]) %> <br> +x,xxx <br> (xx.xx%)</td>
-                <td><%= overall_avg_position(val[1]) %> <br> +x,xxx <br> (xx.xx%)</td>
+                <td><%= imp %> <br> Impressions <br> +<%= s_imp %> <br> ( <%= compare_result(imp, s_imp) %> )</td>
+                <td><%= clicks %> <br> Clicks <br> +<%= s_clicks %> <br> ( <%= compare_result(clicks, s_clicks)%> )</td>
+                <td><%= ctr %> <br> +<%= s_ctr %> <br> ( <%= compare_result(ctr, s_ctr)%> )</td>
+                <td><%= avg_position %> <br> +<%= s_avg_position %><br> (<%= compare_result(avg_position, s_avg_position)%>)</td>
               </tr>
             <%end%>
         </tbody>

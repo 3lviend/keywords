@@ -1,5 +1,38 @@
 module ApplicationHelper
 
+	def collect_datas(array)
+		imp = top_keyword(array, "impressions")
+		clicks = top_keyword(array, "clicks")
+		ctr = top_keyword(array, "ctr")
+		avg_position = top_keyword(array, "avg_position")
+
+		[imp, clicks, ctr, avg_position]
+	end
+
+	def s_collect_datas(name, array2)
+		imp = second_period(name, array2, "impressions")
+		clicks = second_period(name, array2, "clicks")
+		ctr = second_period(name, array2, "ctr")
+		avg_position = second_period(name, array2, "avg_position")
+
+		[imp, clicks, ctr, avg_position]
+	end
+
+	def top_keyword(array, field)
+		eval("array.map(&:#{field}).sum")
+	end
+
+	def second_period(name, keys, field)
+		sec_keys = keys.find_all{|k|k if k.query.eql?(name)}
+		top_keyword(sec_keys, field)
+	end
+
+	def compare_result(current, sec_period)
+		current = 1 if current.eql?(0)
+		ovp = sec_period/current.to_f
+		number_to_percentage(ovp*100, precision: 2)
+	end
+
 	# Total Number of Keywords #
 	def overall_tnk(key_1, key_2)
 		(key_1.size + key_2.size)
@@ -195,12 +228,6 @@ module ApplicationHelper
 		number_to_percentage(ovp*100, precision: 2)
 	end
 
-
-
-
-
-
-
 	def top_ten_on_clicks(key)
 		# sums_by_id = []
 		keywords = key.group_by(&:query).sort_by{|q, s|s.sum(&:clicks)}.reverse.first(10)
@@ -242,7 +269,7 @@ module ApplicationHelper
 	def improved_rankings(key)
 		imp_keys = []
 		key.group_by(&:query).each do |q|
-		  imp_keys << q if q[1].sum(&:impressions) > 100
+		  imp_keys << q if q[1].sum(&:impressions) > 10
 		end
 
 		keywords = imp_keys.sort_by{|q, s|s.sum(&:avg_position)/s.size}.first(10)
@@ -259,7 +286,7 @@ module ApplicationHelper
 		# sums_by_id = []
 		imp_keys = []
 		key.group_by(&:query).each do |q|
-		  imp_keys << q if q[1].sum(&:impressions) > 100
+		  imp_keys << q if q[1].sum(&:impressions) > 10
 		end
 
 		keywords = imp_keys.sort_by{|q, s|s.sum(&:avg_position)/s.size}.reverse.first(10)
@@ -270,6 +297,16 @@ module ApplicationHelper
 		# 	end
 		# end
 		# return sums_by_id
+	end
+
+	def ctr_group(keys)
+		imp_keys = []
+		keys.group_by(&:query).each do |q|
+		  imp_keys << q if q[1].sum(&:impressions) > 10
+		end
+
+		keywords = imp_keys.sort_by{|q, s|s.sum(&:ctr)/s.size}.reverse
+		return keywords
 	end
 
 	# def rankings_sorting(key)
