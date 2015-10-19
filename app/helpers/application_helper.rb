@@ -13,7 +13,8 @@ module ApplicationHelper
 	end
 
 	def overall_visbl(key)
-		key.map(&:impressions).inject{|sum,x| sum + x }
+		key.sum(:impressions)
+		# key.map(&:impressions).inject{|sum,x| sum + x }
 	end
 
 	def new_queries_visbl(key)
@@ -25,6 +26,7 @@ module ApplicationHelper
 	end
 
 	def overall_traffic(key)
+
 		key.map(&:clicks).inject{|sum,x| sum + x }
 	end
 
@@ -52,15 +54,18 @@ module ApplicationHelper
 	end
 
 	def overall_avg_position(key)
-		key.map(&:avg_position).inject{|sum,x| sum + x }
+		sum = (key.map(&:avg_position).inject{|sum,x| sum + x }).to_f / (key.size)
+		number_to_percentage(sum, precision: 2)
 	end
 
 	def new_queries_avg_position(key)
-		key.find_all{|k|k if k.new}.map(&:avg_position).inject{|sum,x| sum + x }
+		sum = (key.find_all{|k|k if k.new}.map(&:avg_position).inject{|sum,x| sum + x }).to_f / (key.find_all{|k|k if k.new}.size)
+		number_to_percentage(sum, precision: 2)
 	end
 
 	def existing_queries_avg_position(key)
-		key.find_all{|k|k if !k.new}.map(&:avg_position).inject{|sum,x| sum + x }
+		sum = (key.find_all{|k|k if !k.new}.map(&:avg_position).inject{|sum,x| sum + x }).to_f / (key.find_all{|k|k if !k.new}.size)
+	    number_to_percentage(sum, precision: 2)
 	end
 
 	def top_ten_on_clicks(key)
@@ -94,30 +99,55 @@ module ApplicationHelper
 	end
 
 	def find_old_query(key)
-    key.find_all{|k|k if !k.new}.group_by(&:query)
+      key.find_all{|k|k if !k.new}.group_by(&:query)
 	end
 
 	def find_new_query(key)
-    key.find_all{|k|k if k.new}.group_by(&:query)
+      key.find_all{|k|k if k.new}.group_by(&:query)
 	end
 
 	def improved_rankings(key)
-		rankings_sorting(key)
+		imp_keys = []
+		key.group_by(&:query).each do |q|
+		  imp_keys << q if q[1].sum(&:impressions) > 100
+		end
+
+		keywords = imp_keys.sort_by{|q, s|s.sum(&:avg_position)/s.size}.first(10)
+		return keywords
+		# keywords.each do |sum|
+		# 	if sum[1].size > 100
+		# 		sums_by_id << sum[1].size
+		# 	end
+		# end
+		# return sums_by_id
 	end
 
 	def lost_rankings(key)
-		rankings_sorting(key)
+		# sums_by_id = []
+		imp_keys = []
+		key.group_by(&:query).each do |q|
+		  imp_keys << q if q[1].sum(&:impressions) > 100
+		end
+
+		keywords = imp_keys.sort_by{|q, s|s.sum(&:avg_position)/s.size}.reverse.first(10)
+		return keywords
+		# keywords.each do |sum|
+		# 	if sum[1].size > 100
+		# 		sums_by_id << sum[1].size
+		# 	end
+		# end
+		# return sums_by_id
 	end
 
-	def rankings_sorting(key)
-		sums_by_id = []
-		keywords = key.group_by(&:query).sort_by{|q, s|s.sum(&:impressions)}.reverse.first(10)
-		keywords.each do |sum|
-			if sum[1].size > 100
-				sums_by_id << sum[1].size
-			end
-		end
-		return sums_by_id
-	end
+	# def rankings_sorting(key)
+	# 	sums_by_id = []
+	# 	keywords = key.group_by(&:query).sort_by{|q, s|s.sum(&:impressions)}.reverse.first(10)
+	# 	keywords.each do |sum|
+	# 		if sum[1].size > 100
+	# 			sums_by_id << sum[1].size
+	# 		end
+	# 	end
+	# 	return sums_by_id
+	# end
 
 end

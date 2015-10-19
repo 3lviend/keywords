@@ -12,7 +12,7 @@
         <tbody>
             <% top_ten_on_clicks(@keywords).each_with_index do |val, index| %>
               <tr>
-                <td>KW&nbsp;<%= index+1 %></td>
+                <td><%= val[0] %></td>
                 <td><%= val[1].size %> <br> Impressions <br> +100,000 (+10%)</td>
                 <td><%= overall_traffic(val[1]) %> <br> Clicks <br> +x,xxx <br> (xx.xx%)</td>
                 <td><%= overall_avg_ctr(val[1]) %> <br> +x,xxx <br> (xx.xx%)</td>
